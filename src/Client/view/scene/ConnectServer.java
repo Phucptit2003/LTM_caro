@@ -5,6 +5,11 @@
  */
 package client.view.scene;
 
+import static Shared.constant.Server.SERVER_HOST;
+import static Shared.constant.Server.SERVER_PORT_1;
+import static Shared.constant.Server.SERVER_PORT_2;
+import static Shared.constant.Server.SERVER_PORT_3;
+import static Shared.constant.Server.SERVER_PORT_4;
 import client.RunClient;
 import javax.swing.JOptionPane;
 
@@ -40,27 +45,13 @@ public class ConnectServer extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txIP = new javax.swing.JTextField();
-        txPort = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         btnConnect = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         pgbLoading = new javax.swing.JProgressBar();
+        selectServer = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Kết nối");
-
-        txIP.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txIP.setText("127.0.0.1");
-        txIP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txIPActionPerformed(evt);
-            }
-        });
-
-        txPort.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        txPort.setText("5056");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel2.setText("KẾT NỐI SERVER");
@@ -74,11 +65,9 @@ public class ConnectServer extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("IP");
-
-        jLabel4.setText("Port");
-
         pgbLoading.setIndeterminate(true);
+
+        selectServer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Server 1", "Server 2", "Server 3", "Server 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -93,36 +82,21 @@ public class ConnectServer extends javax.swing.JFrame {
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnConnect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pgbLoading, javax.swing.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txIP, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(92, 92, 92)
-                                        .addComponent(jLabel3)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txPort)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(jLabel4)
-                                        .addGap(29, 29, 29)))))))
+                            .addComponent(pgbLoading, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(selectServer, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(selectServer, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
                 .addComponent(pgbLoading, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnConnect, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -133,33 +107,32 @@ public class ConnectServer extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnConnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConnectActionPerformed
-        String ip;
+        String ip = SERVER_HOST;;
         int port;
-
-        // validate input
-        try {
-            ip = txIP.getText();
-            port = Integer.parseInt(txPort.getText());
-
-            if (port < 0 || port > 65535) {
-                JOptionPane.showMessageDialog(this, "Port phải từ 0 - 65535", "Sai port", JOptionPane.ERROR_MESSAGE);
-                txPort.requestFocus();
-                return;
-            }
-
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Port phải là số nguyên", "Sai port", JOptionPane.ERROR_MESSAGE);
-            txPort.requestFocus();
-            return;
+        
+        String selectedItem = (String) selectServer.getSelectedItem();
+        System.out.println("Server đã chọn: " + selectedItem);
+        
+        switch (selectedItem) {
+            case "Server 1":
+                port = SERVER_PORT_1;
+                break;
+            case "Server 2":
+                port = SERVER_PORT_2;
+                break;
+            case "Server 3":
+                port = SERVER_PORT_3;
+                break;
+            case "Server 4":
+                port = SERVER_PORT_4;
+                break;
+            default:
+                port = SERVER_PORT_1;
+                break;
         }
 
-        // connect to server
         connect(ip, port);
     }//GEN-LAST:event_btnConnectActionPerformed
-
-    private void txIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txIPActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txIPActionPerformed
 
     private void connect(String ip, int port) {
         // show loading
@@ -235,10 +208,7 @@ public class ConnectServer extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConnect;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JProgressBar pgbLoading;
-    private javax.swing.JTextField txIP;
-    private javax.swing.JTextField txPort;
+    private javax.swing.JComboBox<String> selectServer;
     // End of variables declaration//GEN-END:variables
 }
