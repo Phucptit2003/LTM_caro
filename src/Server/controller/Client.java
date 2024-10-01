@@ -541,6 +541,7 @@ public class Client implements Runnable {
                     Player loser = cCompetitor.loginPlayer;
                     winner.addScore(0.5);
                     loser.addScore(0.5);
+                    System.out.println("Score: " + winner.getScore());
                     bus.update(winner);
                     bus.update(loser);
                     new GameMatchBUS().add(new GameMatch(
