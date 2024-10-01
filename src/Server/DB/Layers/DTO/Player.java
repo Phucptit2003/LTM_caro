@@ -18,7 +18,7 @@ public class Player {
     String name;
     String gender;
     int yearOfBirth;
-    int score = 0; // gia tri mac dinh
+    double score = 0; // gia tri mac dinh
     int matchCount = 0;
     int winCount = 0;
     int loseCount = 0;
@@ -29,11 +29,11 @@ public class Player {
 
     }
 
-    public void addScore(int toAdd) {
+    public void addScore(double toAdd) {
         this.score += toAdd;
     }
 
-    public Player(int id, String username, String password, String avatar, String name, String gender, int yearOfBirth, int score, int matchCount, int winCount, int loseCount, int currentStreak, boolean blocked) {
+    public Player(int id, String username, String password, String avatar, String name, String gender, int yearOfBirth, double score, int matchCount, int winCount, int loseCount, int currentStreak, boolean blocked) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -146,11 +146,11 @@ public class Player {
         this.yearOfBirth = yearOfBirth;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 

@@ -59,6 +59,8 @@ CREATE TABLE IF NOT EXISTS `player` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `UNIQUE` (`Username`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+ALTER TABLE player
+    MODIFY COLUMN Score DOUBLE NOT NULL DEFAULT 0;
 
 -- Dumping data for table carodb.player: ~10 rows (approximately)
 /*!40000 ALTER TABLE `player` DISABLE KEYS */;

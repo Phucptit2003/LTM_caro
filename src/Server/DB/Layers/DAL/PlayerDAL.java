@@ -80,7 +80,7 @@ public class PlayerDAL {
             stm.setString(4, p.getName());
             stm.setString(5, p.getGender());
             stm.setInt(6, p.getYearOfBirth());
-            stm.setInt(7, p.getScore());
+            stm.setDouble(7, p.getScore());
             stm.setInt(8, p.getMatchCount());
             stm.setInt(9, p.getWinCount());
             stm.setInt(10, p.getLoseCount());
@@ -125,7 +125,7 @@ public class PlayerDAL {
             stm.setString(4, p.getName());
             stm.setString(5, p.getGender());
             stm.setInt(6, p.getYearOfBirth());
-            stm.setInt(7, p.getScore());
+            stm.setDouble(7, p.getScore());
             stm.setInt(8, p.getMatchCount());
             stm.setInt(9, p.getWinCount());
             stm.setInt(10, p.getLoseCount());

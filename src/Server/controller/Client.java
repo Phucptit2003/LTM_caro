@@ -535,6 +535,31 @@ public class Client implements Runnable {
                             + Caro.MATCH_TIME_LIMIT
                     );
                 }
+                if(Caro.MATCH_TIME_LIMIT - ((Caro) joinedRoom.getGamelogic()).getMatchTimer().getCurrentTick()<=0){
+                    PlayerBUS bus = new PlayerBUS();
+                    Player winner = loginPlayer;
+                    Player loser = cCompetitor.loginPlayer;
+                    winner.addScore(0.5);
+                    loser.addScore(0.5);
+                    bus.update(winner);
+                    bus.update(loser);
+                    new GameMatchBUS().add(new GameMatch(
+                            winner.getId(),
+                            loser.getId(),
+                            -1,
+                            Caro.MATCH_TIME_LIMIT,
+                            ((Caro) joinedRoom.getGamelogic()).getHistory().size(),
+                            joinedRoom.startedTime
+                    ));
+                    caroGame.cancelTimer();
+
+                    // broadcast to all client in room windata
+                    joinedRoom.broadcast(
+                            StreamData.Type.GAME_EVENT + ";"
+                                    + StreamData.Type.MATCH_TIMER_END.name()
+                    );
+                    break;
+                }
 
                 // get row/col data
                 int row = Integer.parseInt(splitted[2]);
@@ -563,9 +588,9 @@ public class Client implements Runnable {
                         Player loser = cCompetitor.loginPlayer;
 
                         // tinh diem
-                        winner.addScore(3);
+                        winner.addScore(1);
                         winner.setWinCount(winner.getWinCount() + 1);
-                        loser.addScore(-2);
+                        loser.addScore(0);
                         loser.setLoseCount(loser.getLoseCount() - 1);
                         bus.update(winner);
                         bus.update(loser);
