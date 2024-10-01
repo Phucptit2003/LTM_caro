@@ -592,7 +592,7 @@ public class Client implements Runnable {
                         winner.addScore(1);
                         winner.setWinCount(winner.getWinCount() + 1);
                         loser.addScore(0);
-                        loser.setLoseCount(loser.getLoseCount() - 1);
+                        loser.setLoseCount(loser.getLoseCount() + 1);
                         bus.update(winner);
                         bus.update(loser);
 

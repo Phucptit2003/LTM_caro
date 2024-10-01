@@ -75,7 +75,7 @@ public class RankingApp extends JFrame {
 
                 row.add(String.valueOf(rank)); // Hạng
                 row.add(name); // Tên người chơi
-                row.add(String.valueOf(resultSet.getInt("Score"))); // Điểm
+                row.add(String.valueOf(resultSet.getDouble("Score"))); // Điểm
                 row.add(String.valueOf(resultSet.getInt("MatchCount"))); // Số trận
                 row.add(String.valueOf(resultSet.getInt("WinCount"))); // Thắng
                 row.add(String.valueOf(resultSet.getInt("LoseCount"))); // Thua
