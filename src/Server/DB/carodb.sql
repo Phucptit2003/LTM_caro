@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS `player` (
   `Score` int(11) NOT NULL DEFAULT 0,
   `MatchCount` int(11) NOT NULL DEFAULT 0,
   `WinCount` int(11) NOT NULL DEFAULT 0,
+    'DrawCount' int(11) NOT NULL DEFAULT 0,
   `LoseCount` int(11) NOT NULL DEFAULT 0,
   `CurrentStreak` int(11) NOT NULL DEFAULT 0,
   `Rank` int(11) NOT NULL DEFAULT -1,

@@ -29,6 +29,7 @@ public class RankingApp extends JFrame {
         tableModel.addColumn("Điểm");
         tableModel.addColumn("Số trận");
         tableModel.addColumn("Thắng");
+        tableModel.addColumn("Hòa");
         tableModel.addColumn("Thua");
 
         rankingTable = new JTable(tableModel);
@@ -54,10 +55,10 @@ public class RankingApp extends JFrame {
         try {
             // Kết nối với cơ sở dữ liệu MySQL
             Connection connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/test_carodb", "root", "");
+                    "jdbc:mysql://localhost:3306/carodb", "root", "");
 
             // Truy vấn dữ liệu từ bảng Player
-            String query = "SELECT Name, Score, MatchCount, WinCount, LoseCount FROM Player ORDER BY Score DESC";
+            String query = "SELECT Name, Score, MatchCount, WinCount,DrawCount, LoseCount FROM Player ORDER BY Score DESC";
             PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet resultSet = stmt.executeQuery();
 
@@ -78,6 +79,7 @@ public class RankingApp extends JFrame {
                 row.add(String.valueOf(resultSet.getDouble("Score"))); // Điểm
                 row.add(String.valueOf(resultSet.getInt("MatchCount"))); // Số trận
                 row.add(String.valueOf(resultSet.getInt("WinCount"))); // Thắng
+                row.add(String.valueOf(resultSet.getInt("DrawCount")));
                 row.add(String.valueOf(resultSet.getInt("LoseCount"))); // Thua
                 tableModel.addRow(row);
 
@@ -91,6 +93,7 @@ public class RankingApp extends JFrame {
                             "Điểm: " + resultSet.getInt("Score") + "<br/>" +
                             "Số trận: " + resultSet.getInt("MatchCount") + "<br/>" +
                             "Thắng: " + resultSet.getInt("WinCount") + "<br/>" +
+                            "Hòa: " + resultSet.getInt("DrawCount") + "<br/>" +
                             "Thua: " + resultSet.getInt("LoseCount") + "</html>");
                 }
 

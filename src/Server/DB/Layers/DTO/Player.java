@@ -21,6 +21,7 @@ public class Player {
     double score = 0; // gia tri mac dinh
     int matchCount = 0;
     int winCount = 0;
+    int drawCount = 0;
     int loseCount = 0;
     int currentStreak = 0; // số âm là chuỗi thua, dương là chuỗi thắng
     boolean blocked = false;
@@ -32,6 +33,7 @@ public class Player {
     public void addScore(double toAdd) {
         this.score += toAdd;
     }
+
 
     public Player(int id, String username, String password, String avatar, String name, String gender, int yearOfBirth, double score, int matchCount, int winCount, int loseCount, int currentStreak, boolean blocked) {
         this.id = id;
@@ -47,6 +49,14 @@ public class Player {
         this.loseCount = loseCount;
         this.currentStreak = currentStreak;
         this.blocked = blocked;
+    }
+
+    public int getDrawCount() {
+        return drawCount;
+    }
+
+    public void setDrawCount(int drawCount) {
+        this.drawCount = drawCount;
     }
 
     public Player(String username, String password, String avatar, String name, String gender, int yearOfBirth) {
@@ -69,6 +79,7 @@ public class Player {
         this.score = p.score;
         this.matchCount = p.matchCount;
         this.winCount = p.winCount;
+        this.drawCount=p.drawCount;
         this.loseCount = p.loseCount;
         this.currentStreak = p.currentStreak;
         this.blocked = p.blocked;

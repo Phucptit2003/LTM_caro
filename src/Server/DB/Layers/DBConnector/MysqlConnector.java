@@ -20,7 +20,7 @@ public class MysqlConnector {
     Connection conn = null;
 
     String server = "localhost:3306";
-    String db = "test_carodb";
+    String db = "carodb";
     String user = "root";
     String pass = "";
 
