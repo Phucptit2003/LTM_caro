@@ -151,7 +151,7 @@ public class PlayerDAL {
         JSONArray rankingArray = new JSONArray();
 
         try {
-            String qry = "SELECT Name, Score, MatchCount, WinCount, LoseCount FROM Player ORDER BY Score DESC";
+            String qry = "SELECT Name, Score, MatchCount, WinCount,DrawCount, LoseCount FROM Player ORDER BY Score DESC";
             PreparedStatement stmt = connector.getConnection().prepareStatement(qry);
 
             ResultSet resultSet = stmt.executeQuery();
@@ -163,6 +163,7 @@ public class PlayerDAL {
                 player.put("score", resultSet.getDouble("Score"));
                 player.put("matchCount", resultSet.getInt("MatchCount"));
                 player.put("winCount", resultSet.getInt("WinCount"));
+                player.put("drawCount",resultSet.getInt("DrawCount"));
                 player.put("loseCount", resultSet.getInt("LoseCount"));
                 rankingArray.put(player);
             }

@@ -70,13 +70,14 @@ public class RankingApp extends JFrame {
                 row.add(String.valueOf(player.getDouble("score")));
                 row.add(String.valueOf(player.getInt("matchCount")));
                 row.add(String.valueOf(player.getInt("winCount")));
+                row.add(String.valueOf(player.getInt("drawCount")));
                 row.add(String.valueOf(player.getInt("loseCount")));
                 this.tableModel.addRow(row);
 
                 // Update user rank if applicable
                 if (player.get("name").equals(this.currentUsername)) {
                     userRank = (int) player.get("rank");
-                    this.lblUserRank.setText("<html>Tên: " + (String) this.currentUsername + "<br/>Hạng: " + userRank + "<br/>Điểm: " + (double)player.get("score")+ "<br/>Số trận: " + (int)player.get("matchCount") + "<br/>Thắng: " + (int)player.get("winCount")+ "<br/>Thua: " +(int) player.get("loseCount") + "</html>");
+                    this.lblUserRank.setText("<html>Tên: " + (String) this.currentUsername + "<br/>Hạng: " + userRank + "<br/>Điểm: " + (double)player.get("score")+ "<br/>Số trận: " + (int)player.get("matchCount") + "<br/>Thắng: " + (int)player.get("winCount")+ "<br/>Hòa: " +(int) player.get("drawCount")+ "<br/>Thua: " +(int) player.get("loseCount") + "</html>");
                 }
                 rank++;
             }
