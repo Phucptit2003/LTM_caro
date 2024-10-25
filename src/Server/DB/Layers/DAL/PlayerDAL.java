@@ -5,6 +5,8 @@
  */
 package server.db.layers.DAL;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import server.db.layers.DBConnector.MysqlConnector;
 import server.db.layers.DTO.Player;
 import java.sql.PreparedStatement;
@@ -96,7 +98,6 @@ public class PlayerDAL {
 
         return result;
     }
-
     public boolean update(Player p) {
         boolean result = false;
         connector = new MysqlConnector();
@@ -144,6 +145,36 @@ public class PlayerDAL {
 
         return result;
     }
+
+    public JSONArray getRank() {
+        connector = new MysqlConnector();
+        JSONArray rankingArray = new JSONArray();
+
+        try {
+            String qry = "SELECT Name, Score, MatchCount, WinCount, LoseCount FROM Player ORDER BY Score DESC";
+            PreparedStatement stmt = connector.getConnection().prepareStatement(qry);
+
+            ResultSet resultSet = stmt.executeQuery();
+            int rank = 1;
+            while (resultSet.next()) {
+                JSONObject player = new JSONObject();
+                player.put("rank", rank++);
+                player.put("name", resultSet.getString("Name"));
+                player.put("score", resultSet.getDouble("Score"));
+                player.put("matchCount", resultSet.getInt("MatchCount"));
+                player.put("winCount", resultSet.getInt("WinCount"));
+                player.put("loseCount", resultSet.getInt("LoseCount"));
+                rankingArray.put(player);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connector.closeConnection();
+        }
+
+        return rankingArray;
+    }
+
 
     public boolean delete(int id) {
         boolean result = false;

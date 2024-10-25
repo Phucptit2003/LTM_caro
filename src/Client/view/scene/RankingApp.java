@@ -1,5 +1,8 @@
 package Client.view.scene;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -12,7 +15,7 @@ public class RankingApp extends JFrame {
     private String currentUsername;  // Tên người đăng nhập
     private JLabel lblUserRank;  // Nhãn hiển thị thứ hạng người dùng hiện tại
     private JPanel panelUserInfo; // Panel để hiển thị thông tin cá nhân người dùng
-
+    private server.db.layers.DAL.PlayerDAL playerDAL;
     public RankingApp(String currentUsername) {
         this.currentUsername = currentUsername;  // Lưu tên người đăng nhập
 
@@ -53,63 +56,41 @@ public class RankingApp extends JFrame {
     // Hàm tải dữ liệu bảng xếp hạng từ cơ sở dữ liệu
     private void loadRankingData() {
         try {
-            // Kết nối với cơ sở dữ liệu MySQL
-            Connection connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/carodb", "root", "");
-
-            // Truy vấn dữ liệu từ bảng Player
-            String query = "SELECT Name, Score, MatchCount, WinCount,DrawCount, LoseCount FROM Player ORDER BY Score DESC";
-            PreparedStatement stmt = connection.prepareStatement(query);
-            ResultSet resultSet = stmt.executeQuery();
-
-            // Xóa dữ liệu cũ trong bảng
-            tableModel.setRowCount(0);
-
-            // Biến để lưu thứ hạng của người đăng nhập
+            playerDAL = new server.db.layers.DAL.PlayerDAL();
+            JSONArray rankings = playerDAL.getRank();
+            this.tableModel.setRowCount(0);
             int userRank = -1;
             int rank = 1;
-
-            // Thêm dữ liệu mới vào bảng và tìm thứ hạng của người đăng nhập
-            while (resultSet.next()) {
+            // Populate table with data
+            for (Object elem : rankings) {
+                JSONObject player = (JSONObject) elem;
                 Vector<String> row = new Vector<>();
-                String name = resultSet.getString("Name");
+                row.add(String.valueOf(player.getInt("rank")));
+                row.add(player.getString("name"));
+                row.add(String.valueOf(player.getDouble("score")));
+                row.add(String.valueOf(player.getInt("matchCount")));
+                row.add(String.valueOf(player.getInt("winCount")));
+                row.add(String.valueOf(player.getInt("loseCount")));
+                this.tableModel.addRow(row);
 
-                row.add(String.valueOf(rank)); // Hạng
-                row.add(name); // Tên người chơi
-                row.add(String.valueOf(resultSet.getDouble("Score"))); // Điểm
-                row.add(String.valueOf(resultSet.getInt("MatchCount"))); // Số trận
-                row.add(String.valueOf(resultSet.getInt("WinCount"))); // Thắng
-                row.add(String.valueOf(resultSet.getInt("DrawCount")));
-                row.add(String.valueOf(resultSet.getInt("LoseCount"))); // Thua
-                tableModel.addRow(row);
-
-                // Kiểm tra nếu tên là người đăng nhập
-                if (name.equals(currentUsername)) {
-                    userRank = rank;  // Lưu lại thứ hạng của người đăng nhập
-
-                    // Cập nhật thông tin của người dùng
-                    lblUserRank.setText("<html>Tên: " + currentUsername + "<br/>" +
-                            "Hạng: " + userRank + "<br/>" +
-                            "Điểm: " + resultSet.getInt("Score") + "<br/>" +
-                            "Số trận: " + resultSet.getInt("MatchCount") + "<br/>" +
-                            "Thắng: " + resultSet.getInt("WinCount") + "<br/>" +
-                            "Hòa: " + resultSet.getInt("DrawCount") + "<br/>" +
-                            "Thua: " + resultSet.getInt("LoseCount") + "</html>");
+                // Update user rank if applicable
+                if (player.get("name").equals(this.currentUsername)) {
+                    userRank = (int) player.get("rank");
+                    this.lblUserRank.setText("<html>Tên: " + (String) this.currentUsername + "<br/>Hạng: " + userRank + "<br/>Điểm: " + (double)player.get("score")+ "<br/>Số trận: " + (int)player.get("matchCount") + "<br/>Thắng: " + (int)player.get("winCount")+ "<br/>Thua: " +(int) player.get("loseCount") + "</html>");
                 }
-
                 rank++;
             }
 
-            // Hiển thị thông báo nếu không tìm thấy người dùng trong bảng xếp hạng
             if (userRank == -1) {
-                lblUserRank.setText("Bạn không có trong bảng xếp hạng.");
+                this.lblUserRank.setText("Bạn không có trong bảng xếp hạng.");
             }
 
-            // Đóng kết nối
-            resultSet.close();
-            stmt.close();
-            connection.close();
-        } catch (SQLException e) {
+
+
+
+
+
+        } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Lỗi kết nối cơ sở dữ liệu: " + e.getMessage());
         }

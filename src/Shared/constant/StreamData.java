@@ -65,6 +65,7 @@ public class StreamData {
         MATCH_TICK,
         MATCH_TIMER_END, // hết giờ / server gửi tới client
         TURN_TIMER_END, // hết thời gian turn / server gửi tới client
+        GET_RANK,
 
         // specific
         UNKNOW_TYPE, // khi client gửi type không xác định
